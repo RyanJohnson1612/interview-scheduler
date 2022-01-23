@@ -9,7 +9,7 @@ function useVisualMode(initial) {
 
   /* Sets state of mode to mode param then updates history 
    * @param: {string} 'mode' the mode to transistion to
-   * @param: {boolean} 'replace' if true the mode replaces the prev mode in history 
+   * @param: {boolean} 'replace' if true the new mode replaces the previous mode in history 
    */
   const transition = (mode, replace = false) => {
     setMode(mode);
@@ -24,7 +24,7 @@ function useVisualMode(initial) {
     }
   };
 
-  /* Sets state of mode to previous mode in history, then remove previous mode from history
+  /* Sets state of mode to previous mode in history, then updates history
    * Only works with more than one item in the history  
    */
   const back = () => {
