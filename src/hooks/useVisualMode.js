@@ -1,9 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
+/* Handles mode and history states for Appointment component
+ * @param: {string} 'initial' the mode default mode
+ */
 function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
   const [history, setHistory] = useState([initial]);
 
+  /* Sets state of mode to mode param then updates history 
+   * @param: {string} 'mode' the mode to transistion to
+   * @param: {boolean} 'replace' if true the mode replaces the prev mode in history 
+   */
   const transition = (mode, replace = false) => {
     setMode(mode);
     if(replace) {
@@ -17,6 +24,9 @@ function useVisualMode(initial) {
     }
   };
 
+  /* Sets state of mode to previous mode in history, then remove previous mode from history
+   * Only works with more than one item in the history  
+   */
   const back = () => {
     setHistory((prev) => {
       if(history.length > 1) {
