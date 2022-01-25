@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 /* Handles fetching and updating of appilcation data and state
  * @return {object} returns state object, setDay(), bookInterview() and deleteInterview() 
@@ -32,6 +33,10 @@ function useApplicationData() {
       console.log(error);
     })
   },[]);
+
+  useEffect(() => {
+    updateSpots();
+  }, [state.appointments])
 
   /* Sets state of day to day param 
    * @param: {string} day to set 
@@ -77,9 +82,21 @@ function useApplicationData() {
           };
       
           const appointments = {...state.appointments, [id]: {...appointment, interview: null}}
-          setState(prev => ({...prev, appointments}))
+          setState(prev => ({...prev, appointments}));
         })
     ) 
+  }
+
+  /* Updates number of spots for current day, called when an interview is booked or deleted
+   * @return {void}
+   */
+  const updateSpots = () => {
+    const updatedSpots = getAppointmentsForDay(state, state.day).filter(appointment => appointment.interview === null).length; 
+    const index = state.days.findIndex(day => day.name === state.day);
+    const updatedDay = {...state.days[index], spots: updatedSpots};
+    const updatedDays = [...state.days.slice(0, index), updatedDay, ...state.days.slice(index + 1)];
+
+    setState(prev => ({...prev, days: updatedDays}));
   }
 
   return { state, setDay, bookInterview, deleteInterview };
