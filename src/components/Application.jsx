@@ -6,6 +6,7 @@ import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "help
 import useApplicationData from '../hooks/useApplicationData';
 
 export default function Application(props) {
+  // useApplicationData hook state and functions
   const { 
     state,
     setDay,
@@ -13,24 +14,25 @@ export default function Application(props) {
     deleteInterview
   } = useApplicationData();
   
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
-
-  const schedule = dailyAppointments.map((appointment) => {
-    const interview = getInterview(state, appointment.interview);
-    const interviewers = getInterviewersForDay(state, state.day);
-
-    return (
-      <Appointment 
-        key={appointment.id} 
-        id={appointment.id} 
-        time={appointment.time} 
-        interview={interview}
-        interviewers={interviewers}
-        bookInterview={bookInterview}
-        deleteInterview={deleteInterview}
-      />
-    );
-  })
+  // Get interviewers for the selected day
+  const interviewers = getInterviewersForDay(state, state.day);
+  
+  // Get appointments for the selected day and map through and add an Appointment component for each appointment slot
+  const appointments = getAppointmentsForDay(state, state.day).map(
+    appointment => {
+      return (
+        <Appointment 
+          key={appointment.id} 
+          id={appointment.id} 
+          time={appointment.time} 
+          interview={getInterview(state, appointment.interview)}
+          interviewers={interviewers}
+          bookInterview={bookInterview}
+          deleteInterview={deleteInterview}
+        />
+      );
+    }
+  );
 
   return (
     <main className="layout">
@@ -55,7 +57,8 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {schedule}
+        {appointments}
+        <Appointment key="last" time="5pm" />
       </section>
     </main>
   );

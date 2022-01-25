@@ -3,12 +3,21 @@ import InterviewerList from '../InterviewerList';
 import Button from '../Button';
 
 function Form(props) {
+  // Set initial state
   const [student, setStudent] = useState(props.student || '');
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
+  
+  /* Resets form state 
+   * @return {void} 
+   */
   const reset = () => {
     setStudent('');
     setInterviewer(null);
   }
+
+  /* Calls reset() and then calls the onCancel() prop
+   * @return {void} 
+   */
   const cancel = () => {
     reset();
     props.onCancel();
