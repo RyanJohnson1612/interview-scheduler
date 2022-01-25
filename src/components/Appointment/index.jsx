@@ -28,6 +28,9 @@ function Appointment(props) {
     props.bookInterview(props.id, interview)
       .then(() => {
         transition(SHOW);
+      })
+      .catch(err => {
+        console.log(err)
       });
   } 
 
@@ -36,6 +39,9 @@ function Appointment(props) {
     props.deleteInterview(id)
       .then(() => {
         transition(EMPTY);
+      })
+      .catch(err => {
+        console.log(err)
       });
   }
 
@@ -52,6 +58,15 @@ function Appointment(props) {
       }
       {mode === CREATE && (
         <Form 
+          interviewers={props.interviewers}
+          onCancel={() => back()}
+          onSave={save}
+        />
+      )}
+      {mode === EDIT && (
+        <Form 
+          {...props.interview}
+          interviewer={props.interview.interviewer.id}
           interviewers={props.interviewers}
           onCancel={() => back()}
           onSave={save}
