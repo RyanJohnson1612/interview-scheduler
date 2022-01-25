@@ -46,15 +46,9 @@ export default function Application(props) {
 
     return (
       axios.put(`/api/appointments/${id}`, {interview})
-      .then(res => {
-        setState({
-          ...state,
-          appointments
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      })
+        .then(res => {
+          setState(prev => ({...prev, appointments}));
+        })
     )
   };
 
@@ -68,15 +62,9 @@ export default function Application(props) {
     return (
       axios.delete(`/api/appointments/${id}`)
         .then(res => {
-          setState({
-            ...state,
-            appointments
-          })
+          setState(prev => ({...prev, appointments}))
         })
-        .catch(err => {
-          console.log(err);
-        })
-    )
+    ) 
   }
   
   dailyAppointments = getAppointmentsForDay(state, state.day);
