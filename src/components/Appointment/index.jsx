@@ -58,7 +58,7 @@ function Appointment(props) {
       {mode === CREATE && (
         <Form 
           interviewers={props.interviewers}
-          onCancel={() => back()}
+          onCancel={() => transition(EMPTY)}
           onSave={save}
         />
       )}
@@ -67,7 +67,7 @@ function Appointment(props) {
           {...props.interview}
           interviewer={props.interview.interviewer.id}
           interviewers={props.interviewers}
-          onCancel={() => back()}
+          onCancel={() => transition(SHOW)}
           onSave={save}
         />
       )}
