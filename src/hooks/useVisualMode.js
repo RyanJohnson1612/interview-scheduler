@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 /* Handles mode and history states for Appointment component
  * @param: {string} 'initial' the mode default mode
+ * @return {object} returns mode state, history state, transition(), and back()
  */
 function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
@@ -30,8 +31,7 @@ function useVisualMode(initial) {
   const back = () => {
     setHistory(prev => {
       if(prev.length > 1) {
-        const newHistory = [...prev];
-        newHistory.pop();
+        const newHistory = [...prev].pop();
         setMode(newHistory[newHistory.length - 1]);
         return newHistory;
       }
@@ -39,7 +39,7 @@ function useVisualMode(initial) {
     })
   };
   
-  return { mode, transition, back };
+  return { mode, history, transition, back };
 }
 
 export default useVisualMode;
