@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
+import { getAppointmentsForDay } from "helpers/selectors";
 
 /* Handles fetching and updating of appilcation data and state
  * @return {object} returns state object, setDay(), bookInterview() and deleteInterview() 
@@ -34,6 +34,7 @@ function useApplicationData() {
     })
   },[]);
 
+  // Watch for changes to appointments state, then udpate spots count
   useEffect(() => {
     updateSpots();
   }, [state.appointments])
